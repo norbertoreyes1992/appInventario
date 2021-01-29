@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
+             xmlns:behaviorsPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
+             x:Class="appInventario.MainPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="Blue"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <StackLayout Grid.Row="0" Margin="0,15,0,0">
+            <autocomplete:SfAutoComplete HeightRequest="40"
+                                     DataSource="{Binding ArticulosBuscador}"
+                                     DisplayMemberPath="sSkuArticulo"
+                                     Watermark="Buscador..">
+                <autocomplete:SfAutoComplete.Behaviors>
+                    <behaviorsPack:EventToCommandBehavior EventName="SelectionChanged"
+                                                      Command="{Binding SearchCommand}"
+                                                      EventArgsPropertyPath="Value"/>
+                </autocomplete:SfAutoComplete.Behaviors>
+            </autocomplete:SfAutoComplete>
+        </StackLayout>
+        <StackLayout Grid.Row="1" Margin="0,20,0,0">
+                <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding refresarArticulos}">
+                    <ListView ItemsSource="{Binding listaArticulos}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Text="{Binding sSkuArticulo}" Style="{DynamicResource ListItemDetailTextStyle}" WidthRequest="50" Margin="10"/>
+                                    <Label Grid.Column="1" Text="{Binding sNombreArticulo}" Style="{DynamicResource ListItemDetailTextStyle}" Margin="10"/>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </RefreshView>
+            </StackLayout>
+        <StackLayout Grid.Row="2">
+            <Button 
+                WidthRequest="55"
+                HeightRequest="55"
+                CornerRadius="40"
+                VerticalOptions="Center"
+                HorizontalOptions ="End"                
+                BackgroundColor="#72C9EC"
+                Margin="0,0,15,0"
+                Text="+"
+                TextColor="White" FontSize="Title" 
+                Command="{Binding abrirVentana}"/>
+        </StackLayout>
+    </Grid>
+</ContentPage>
