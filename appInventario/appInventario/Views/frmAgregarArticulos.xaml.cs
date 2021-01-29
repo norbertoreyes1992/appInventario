@@ -37,6 +37,7 @@ namespace appInventario.Views
 
             if (foto != null)
             {
+
                 imgArt.Source = ImageSource.FromStream(() =>
                 {
                     var stream = foto.GetStream();
